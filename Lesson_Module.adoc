@@ -1,0 +1,322 @@
+= Cyber-Physical Systems Lesson Modules
+
+== Introduction to CPS
+=== Core elements of a cyber physical system
+	* Physical components - devices, machine, sensors, actuators
+	* Cyber/Computational Components - software, algorithms, data processing, and communication.
+	* Network Communication - physical and computational components connecting and facilitating data transfer throughout the system.
+	* Feedback loops - continuous bidirectional data transfer between the physical and computational layer facilitate control and decision making.
+
+== Module 1 - Computational Systems
+=== Types of computational systems and applications
+	* Microprocessors
+	* Microcontrollers
+	* Single board computers
+	* Graphics and Tensor Accelerators
+	* FPGAs
+	* System on Chip 
+	
+	* Microcontrollers (MCUs) - small, low-power computing devices with embedded processors, memory, and input/output (I/O) capabilities.
+	* Programmable Logic Controllers (PLCs) - rugged, industrial-grade computers specifically designed for controlling manufacturing processes, machinery, and automation systems.
+	* Field Programmable Gate Arrays (FPGAs) - highly customizable, reconfigurable hardware that can be programmed to execute specific functions at high speeds.
+	* Single Board Computers (SBCs) - fully functional computers with integrated processors, memory, and I/O interfaces on a single board
+	* Graphics and Tensor Accelerators (GPU, TPU) - accelerate parallel processing tasks, particularly for AI and machine learning applications.
+	* Networked Modules - embedded systems designed for networking and communication protocols such as bluetooth, wifi, or 5G.
+
+=== Selection Considerations
+	* Computational workloads, Power constraints, Price, Data throughput, Security and safety, Real-time performance requirements, Environmental conditions
+
+=== Development Ecosystem and Toolchains
+	* Programming languages and IDEs
+		** Native C/C++ - Allows for the most amount of control and the ability to access low level features, but is the most challenging to learn and has the longest development time
+		** Arduino - Offers abstraction and libraries that are more user friendly, but may introduce inefficiencies and may not have aggressive optimizers.
+		** Micropython - runs firmware which contains an optimized version of the Python interpreter, core Python libraries, and hardware-specific modules.
+	* Libraries, packages, hardware abstraction layer, and software development kits (SDKs)
+	* Computer architecture 
+		** Von Neumann Architecture
+		** Harvard Architecture
+		** RISC (Reduced Instruction Set Computer)
+		** CISC (Complex Instruction Set Computer)
+		** VLIW (Very Long Instruction Word)
+		** Superscale Architecture
+		** Multicore Architecture
+		** MIMD (Multiple Instruction, Multiple Data)
+		** SIMD (Single Instruction, Multiple Data)
+	* Instruction Set Architectures
+		** X86 - Older PCs, laptops, servers
+		** ARM (Advanced RISC Machine) - Smartphones, Tablets, IoT devices, Apples M chips
+		** RISC-V - Open source, academic research, embedded systems, experimental computing systems
+		** PowerPC (Performance Optimization With Enhanced RISC - Performance Computing) - older devices such as playstation 3 and Xbox 360
+
+== Module 2 - Communication Systems
+=== General theory
+	* Clock speeds
+		** Bits per second
+		** Baud rate - signal units transmitted per second
+	* Pull up/pull down resistors
+		** Ensure Defined Logic Levels - by removing floating inputs
+		** Enable Bus Communication
+		** Signal Integrity - too high or too low resistance can increase or decrease the amount of time needed for a line to return to a set voltage
+	* Bus communication
+		** Master/Slave devices
+		** Addressing
+		** Clocking and synchronous/asynchronous 
+		** Full duplex/Half duplex
+
+=== Wired Communication
+	* I2C (Inter-Integrated Circuit) - Multi-master, multi-slave, half-duplex, used for sensors, EEPROMS, and low-speed peripherals for microcontrollers.
+		** Wires - SDA (serial data), and SCL (serial clock)
+	* SPI (Serial Peripheral Interface) - Single-master, multi-slave, full-duplex, used for high-speed data transfer such as SD cards, displays, and flash memory. 
+		** Wires - MISO (master in, slave out), MOSI (master out, slave in), SCLK (serial clock), and SS (slave select)
+	* UART (Universal Asynchronous Receiver-Transmitter) - Point-to-point asynchronous communication with agreed upon baud rate using start and stop bits to frame data
+		** Wires - TX (Transmit) and RX (Receive)
+	* CAN Bus (Control Area Network) - Multi-master, multi-slave, message-based priority communication used in the automotive industry.
+		** Wires - CAN High and CAN Low
+	* USB (Universal Serial Bus) - Single-master, multi-slave, high-speed communication initiated by master, used for computer mice, keyboards, and storage drives.
+		** Wires - Vbus (Power), Ground, D+ and D- (differential data lines)
+	* PCI/PCIe (Peripheral Component Interconnect/Express) - Multi-device communication designed for high speed internal components in computers such as graphics cards, network cards, and storage drives. 
+		** Multiple lines for data, address, and control (32 lines for PCI and 4 lines for PCIe)
+
+=== Local Area Networks (LANs) 
+	* Use Ethernet transmits data in units called “frames”, and use MAC addresses to identify devices on the network.
+
+=== Communication physics: EMF
+	* Faraday’s law, twisted cables, coaxial, and fiber optic. 
+
+=== Wireless communication
+	* Bluetooth - 2.4 GHz band
+		** Discover, authentication, bonding
+		** “Frequency-hopping spread spectrum” (FHSS) ensures minimal interference and reliability.
+		** Bluetooth Classic is ideal for continue data flow applications - 3 Mbps transfer rates
+		** Bluetooth Low Energy (BLE) is idea for power constrained systems - 2Mbps transfer rates
+		** Profiles - A2DP (Advanced audio distribution profile), HFP (Hands-free profile), HID (Human interface device profile), SPP ( Serial Port Profile), PBAP (Phone book access profile)
+		** Range depends on Class (1, 2, or 3), 1-100 meters
+	* Wifi 
+		** Frequency bands 
+			*** 2.4 GHz - Longer range, lower data speeds, prone to interference from bluetooth
+			*** 5 GHz - Shorter range, higher data speeds, less interference
+			*** 6 GHz - Fastest speeds, not widely supported yet
+		** Access point (router) - client (device) model
+		** Key Operational Notes
+			*** SSID (Service Set Identifier) allows deconfliction between multiple wireless networks in the same area
+			*** Security protocols - WPA (Wifi Protected Access)
+		** Data transmission - in the form of “packets” using CSMA/CA (Carrier sense multiple access with Collision Avoidance) 
+		** Other key advantages
+			*** MIMO (Multi input, multi output) - using multiple antennas to transmit in parallel
+			*** Beamforming - directs signals towards devices
+			*** Mesh Wifi
+			*** OFDMA (Orthogonal Frequency Division Multiple Access) - splits a single channel into multiple sub channels to allocate to different devices.
+	*Wireless protocols for home automation and industrial control
+		** Zigbi - uses IEEE 802.15.4 (physical and datalink layers), but defines its own network, transport, and application layers
+		** Matter - uses IEEE 802.15.4 (physical and datalink layers) and IPV6 and TCP/UDP (network and transport layers), but defines its own application layer
+		** Z-wave - defines its own lower frequency physical layers and datalink layers (but leverages MAC addressing), and defines its own network, transport, and application layer independent of TCP/UDP/IP
+	*Cellular (LTE, 5G, NB-IoT)
+		** 5G - ideal for high-speed, low-latency, reliable communications for real time use
+		** 4G LTE - provide low-power, wide-area, coverage
+		** Cellular V2X (Vehicle-to-everything)
+			*** V2V - vehicle-to-vehicle, transmits speed, direction, location, to prevent accidents and coordinate traffic
+			*** V2I - vehicle-to-infrastructure, transmits to roadside infrastructure like traffic lights, road signs, and traffic management systems
+			*** V2P - vehicle-to-pedestrian, communicates to pedestrians equipped with smartphones, to avoid accidents with cycles and other pedestrians 
+			*** V2N - vehicle-to-network, allows for connection with broader mobile network to access real-time data a services
+			*** Direct communication - V2V, V2I, V2P communication can occur directly, without the need for a cellular network, using unicast or broadcast, leverages 5.9 Ghz ITS band
+	*LPWAN technologies
+		** Sigfox - proprietary, used for minimal data transfer (100 bps) over long distances (50 km in rural area), extremely low power consumption, low connectivity costs, commonly used in asset tracking, remote sensor networks, and smart metering, uses a global proprietary network
+		** LoRaWAN - open standard, low data transfer (0.3-50 kbps) depending on range (10-15km), anyone can deploy a private or public network
+		** NW-IoT - uses cellular network (existing 4G/5G towers), data rates of up to 250kbps up and 20kbps down, supports limited mobility but cannot do quick cell tower handovers like a cellphone
+	* UWB (Ultra-wide band) - short range wireless communication with high precision distance measuring
+		** Commonly used in keyless entry for cars, indoor position and asset tracking, 
+	* RFID Radio Frequency ID
+		** RFID - comprised of a tag (transponder), reader (interrogator), and antenna, tags can be passive, active, or semi-passive, 
+			*** Low frequency (30kHz-300kHz) - range of up to 10cm, commonly used for animal tracking, access control, and automotive anti-theft systems
+			*** High frequency (3MHz-30MHz) - range of up to 1m, typically used for contactless payment, access control, asset tracking
+			*** Ultra-High frequency (300MHz-3GHz) - range of up to 12m, commonly used in supply chain management, toll collection and vehicle tracking
+			*** Microwave RFID (2.45GHz or higher) - range of up to 30m or more, commonly used in toll collection and long distance vehicle tracking/vehicle identification
+	* Generate a “Bandwidth vs Range” graph and table for all of these communication protocols
+
+=== Computer networking: Open Systems Protocol 
+	* Physical layer - deals with the physical connection between devices including the transmission of ones and zeros
+		** Example - Copper, radio, fiber optic, and associated hardware
+	* Datalink Layer - ensures reliable transmission of data between two devices by packaging bits into structures called frames and manages some error checking (CRC), collision avoidance, and MAC addresses
+		** Examples - Ethernet, WIFI, PPP (point-to-point protocol), uses CSMA/CA
+	* Network Layer - manages how data is routed within a network, or between networks, selecting the best route and managing package size to fit within network constraints
+		** Examples - IP (internet protocol), ICMP (internet control messaging protocol)
+	* Transport Layer - ensures reliable, error free, end-to-end transmission of data between hosts and differentiates between multiple sessions on the same device using ports
+		** Examples - TCP (more reliable), UDP (faster), RTP (real-time transport protocol)
+	* Session Layer - manages communication sessions and allows for multiple session simultaneously (eg. multiple tabs in a single browser)
+		** Examples - PPTP (point-to-point tunneling protocol, used for VPNs), SQL sessions, SIP (session initiation protocol, used for voice or video over IP)
+	* Presentation Layer - responsible for encoding/decoding data, data compression/decompression, encryption/decryption, negotiating data structures (eg. Endianess)
+		** Examples - JPEG, SSL/TSL (secure socket layer/transport layer security, used in HTTPS)
+	* Application Layer - handles user level interaction, data transfer, and communication.
+		** Examples - HTTP/HTTPS, FTP, MQTT, POP3/IMAP, DNS, RTSP
+
+== Module 3 - Actuators 
+=== DACs (digital to analog converts) - allows digital signals to be converted to analog voltages
+	* Parameters
+		** Resolution - number of bits that can be process, granularity of signal
+		** Sampling rate - speed at which the signal can be converted, critical to achieving high frequency analog signals
+		** Reference voltage - highest analog voltage than can be produced by the DAC
+		** Settling time - how quickly the DAC output is stabilized
+		** Output range - span between minimum and maximum output levels of DAC
+	* DAC Architectures
+		** Resistor Ladder (2-2R) and Weighted resistor - uses a network of resistors which are switch in and out of the circuit
+			*** Low-cost, low-precision, slow, cost effective, subject to inaccuracy due to resistor mismatch
+		** Sigma-Delta - over samples the digital signal then uses a 1-bit DAC to convert to analog, then filters to remove noise, commonly used in audio drivers
+			*** High resolution, slower response, high latency, 
+		** Current Steering DAC - uses a set of transistor-based current supplies (one for each bit) which are switch on/off and summed together, the output current is pass through a resistor to convert to a voltage
+			*** High speed (GHz-MHz), low-power, high linearity, sensitive to output impedance, applications in radio signals, high speed communication, and video systems
+		** PWM (Pulse width modulation) - digital signal switches between high and low at a set frequency with the duty cycle proportional to the desired analog signal, higher frequency reduces effects of artifacts
+			**** Used for motor control, servo control, dimming, audio, digital communication
+
+=== Motors
+	* AC Inductance Motors - Reliable and durable with few moving parts, cost effective and simple to operate, available in single phase or 3-phase (for industrial applications), operate using “slip” so the rotation speed less than the voltage frequency
+		** Controller - VFD (variable frequency drive), pole changing, voltage control
+	* AC Synchronous Motor - Expensive and require more maintenance than induction motors, but have excellent power factor, are highly efficient at steady loads and maintain constant speeds, require secondary motor to start
+		** Require permanent magnets or a DC excitation system, speed cannot be controlled
+	* Brush permanent magnet DC motor - stator contains permanent magnets, the rotor contains windings over an iron core that are powered by brushes in contact with a commutator, cost effective, simple, with limited torque and speed range
+		** Use cases - toys, appliances
+	* Brushless DC motors - stator contains windings and rotor has permanent magnets, speed and torque are electronically controlled using a hall effects sensor or back-emf, higher efficiency, lower maintenance, better speed and torque, higher power density, more expensive
+		** Use cases - Drones, electric vehicles, industrial automation
+	* Stepper motors - brushless, moves in discrete increments and has high holding torque control, stator has multiple phased windings that when energized in sequence, cause the rotor’s teeth to move in steps
+		** Use cases - CNC machines, 3D printers, robotics, camera lenses
+	* Coreless motors - the same as a brushed DC motor only without the iron core, allows for higher acceleration and deceleration, lighter and smaller
+		** Use cases - medical devices, robotics handheld tools, cheap drones
+	* Servo motors - comprised of a motor, control circuit, and feedback device such as a potentiometer or encoder, usually geared, continuous or positional
+		** Use cases - robotics, RC airplanes, medical devices
+
+=== Linear Actuators
+	* Linear Inductance motors, linear synchronous motors, linear stepper motors, linear DC motors -  same as non-linear motors only “unrolled” into a straight line
+		** AC versions - high power applications, trains, conveyors, high-end elevators, amusement park rides
+		** DC versions - medical devices, robotics, gates and doors
+	* Voice coil actuators - a coil of wire in or around a permanent magnet, designed for precise linear control of force, speed, and position
+		** Use cases - hard disk drives, optical systems, pick-and-place fabrication machines
+
+=== Motor characteristic graph
+	* Torque
+	* Speed
+	* Current
+	* Efficiency
+	* Power
+
+=== Pneumatic and Micro-electromechanical
+	* Hydrostatic - uses pressurized fluid to create force or motion, typically for heavy duty applications, pressure is created by pumps, transferred by incompressible fluid, and controlled with valves, can drive cylinders or motors
+		** Offers high force output, precise control, high load holding, and durability - often used for construction equipment, aerospace, robotics, and industrial automation
+	* Piezoelectric - thin layers of piezoelectric material can be used to form structures that move when a voltage is applied, movement is extremely small but precise on the order of nanometers
+		** Material can be configured to form stacks (high force, low displacement), bending (low force, high displacement), tubes (radial or longitudinal force), shear (force perpendicular to voltage), and amplified (levers and arms) actuators
+
+== Module 4 - Sensors
+=== Introduction and basics
+	* ADCs - Analog to digital converters
+		** SAR (Successive Approximation) - uses a binary search algorithm to compare the input signal to a binary value which is adjusted until they match
+			*** Commonly used in microcontroller systems such as Arduino and Raspberry pi Pico
+		** Delta-Sigma - converts the analog signal into a super high frequency bitstream by using a 1-bit comparator and subtracting the values from the original signal in a feedback loop
+			**** Commonly used in audio equipment and high precision biomedical and industrial sensing such as ECGs and pressure sensors
+		** Pipeline - a low resolution ADC (1-3 bits) converts the input signal to digital, its then passed into a DAC and subtracted from the original signal, the residual is amplified and the process is repeated until the desired resolution is achieved, eg. 8, 2-bit stages results in 16-resolution
+			*** High speed and high resolution due to parallelization, but latency is introduced, commonly used in video and image processing, communication, and high speed data acquisition
+		** Dual slope - the signal is integrated, then the integrator is connected to a negative reference signal, the time it takes the integrator to return to zero is measured
+			*** High accuracy, good noise immunity, slow (10-100Hz) 
+		** Flash - Uses multiple comparators in parallel against reference voltages
+			*** Very fast (GHz), low latency, high cost, low resolution (8-bits), commonly used for oscilloscopes, radar and RF communication, and high speed data converters
+		** Sampling frequency vs resolution comparison graph
+	* Passive vs Active
+		** Passive - measure naturally occurring energy signals from the environment
+		** Active - emits energy, measures reflected energy that has interacted with the environment
+	* Digital vs Analog
+		** Digital - produce discrete signals and commonly use a digital communication protocol to transmit data to a microcontroller
+		** Analog - produce continuous signals (usually voltage) that must be measured using an ADC in order to interface with a microcontroller
+
+=== Simple Sensors and Sensing Mechanisms
+	* Temperature Sensors 
+	* Humidity Sensors
+	* Motion Sensors
+	* Proximity Sensors
+	* Light Sensors
+	* Gas Sensors
+	* Pressure Sensors
+	* Water Level Sensors
+	* Sound Sensors
+	* Touch Sensors
+	* Vibration Sensors
+	* Camera Modules
+	* Current and Voltage Sensors
+	* Magnetic Sensors
+	* Force and Load Sensors
+	* Infrared Sensors
+	* Gyroscopes and Accelerometers
+	* Time of Flight Sensors (ToF)
+	* Sensor physics
+
+=== Systems of Sensors - design consideration
+	* Noise characterization and Environmental Considerations
+	* Reliability and Redundancy
+	* Power Consumption
+	* Communication Protocols (Wired vs. Wireless, Range, Data Rate)
+	* Scalability (Number of Sensors, Network Topology)
+	* Data Processing and Management
+	* Security (Encryption, Authentication)
+	* Cost (Initial, Maintenance, Scalability)
+	* Integration with Existing Systems
+	* Deployment and Maintenance
+	* Latency and Bandwidth
+	* Regulatory Compliance
+
+=== Sensor and Interface Simulation
+	* Noise - Select correct sensor noise model and use random number generator to simulate sensor readings
+	* Interface - Generate sensor messages using correct bit-packing and endianness, simulate communication protocols
+	* Test - Generate replicable sensor readings to allow for easier debugging through the rest of the system
+
+== Module 5 - Signal Processing & State Estimation
+=== Basic signal processing
+	* Sampling and Quantization
+	* Frequency analysis - Fourier Transform, Short-time FT, wavelet transform
+	* Filtering - low-pass, high-pass, band-pass
+	* Correlation - measure similarity of two signals
+	* Autoregressive - using past data points to predict future data in real time
+	* Decimation and Interpolation
+	* Filters: high pass, low pass, band
+
+=== Sensor Fusion
+	* Reasons for sensor fusion
+		** Redundancy 
+		** Complementary information
+	* Fusion levels
+		** Low level - Directly fusing raw sensor data, often done in real time when quick decision need to be made based on multiple inputs
+		** Mid-level - Processed data or extracted features are fused 
+		** High-level - Decisions or inferences from multiple sensors are fused to form high level knowledge
+	* Examples of sensor fusion
+		** IMU - combine accelerometer, magnetometer, and gyroscope data
+		** Camera-LiDAR - fuses visual data and color with 3D distance readings
+		** GPS - often fused with IMU data for high precision state estimation
+	* Sensor Fusion algorithms
+		** Complementary filter
+		** Kalman Filter
+		** Extended Kalman filter
+		** Particle filter
+		
+=== State Estimation
+	* Reasons for state estimation
+		** Incomplete observability - the state cannot always be measured directly due to sensor limitations
+		** Noise and uncertainty - real world processes and sensors are noisy don’t behave in precise manors
+		** System control - feedback control algorithms depend on a reliable and accurate estimation of the system’s state
+	* Key Features
+		** System State - minimum set of variables that can completely describe the system at any given time
+		** Process Model - mathematical model that describes how a system evolves with time, usually expressed as a differential or difference equation
+		** Measurement Model - mathematical model that describes the relationship between sensor measurements and the system state
+		** Estimation Algorithm - fuses the process model with the measurement model
+	* Examples - Kalman filters, particle filters, moving horizon estimation
+	* State Estimation steps
+		** Predict - use process model to predict the state in the next time step
+		** Update - fuse a sensor reading with the predicted state (commonly with a weighted function)
+		** Repeat
+	* Considerations
+		** Performance depends on accuracy of process and sensor models
+		** Many systems exhibit nonlinear dynamics, but can be approximated as linear
+		** Real-time requirements can be vital to control algorithm but difficult to achieve with large volumes of data
+
+==== Computer vision
+	* Key Components
+		** Capturing video and Processing - reading the camera sensor and, if needed, performing basic operations such as resizing, filtering, and enhancing
+		** Compression/Decompression - individual frames can be compressed using algorithms such as JPEG, sequences of frames can be compressed using codecs such as H.264, these enable 
+		** Feature Extraction - algorithms such as edge or keypoint detection can be used to extract important image features, descriptors are used to form mathematical representations of these features
+		** Detection and Recognition - CNN can be run on the cloud or locally, capable of detecting and classifying entities, training data and model selection and validation are of the most importance
+		** Tracking and Motion Analysis - Maintaining entity identification through time given a detection or series of detections, measuring how pixels change or move through time
+		** Reliability, Security, and Autonomy - designing a CV system that is reliability and secure enough to automate critical system functionality, e.g. facial recognition for security locked doors 

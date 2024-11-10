@@ -1,0 +1,65 @@
+@startuml
+' Set the direction of the graph to top-bottom for a traditional family tree layout
+top to bottom direction
+
+' Define the root node
+rectangle "Electric Motors" as EM
+
+' Define first-level categories
+rectangle "AC Motors" as ACM
+rectangle "DC Motors" as DCM
+rectangle "Universal Motors" as UM
+
+' Define second-level categories for AC Motors
+rectangle "Synchronous \nMotors" as SM
+rectangle "Induction \n(Asynchonous) Motors" as IM
+
+' Define third-level categories for Synchronous Motors
+rectangle "Permanent\nMagnet Synchronous Motor" as PMSM
+rectangle "<center>Reluctance \nSynchronous Motor" as RSM
+rectangle "<center>Hysteresis \nMotor" as HM
+rectangle "<center>Wound Rotor \nSynchronous Motor" as WRM
+
+' Define third-level categories for Induction Motors
+rectangle "Single-phase Induction Motors" as SIM
+rectangle "Three-phase Induction Motors" as TIM
+
+' Define second-level categories for DC Motors
+rectangle "Brushed DC Motors" as BDCM
+rectangle "Brushless DC Motors" as BLCM
+
+' Connect root to first-level categories
+EM --> ACM
+EM --> DCM
+EM --> UM
+
+' Connect AC Motors to its subcategories
+ACM --> SM
+ACM --> IM
+
+' Connect Induction Motors to its subcategories
+SM --> PMSM
+SM --> RSM
+SM --> HM
+SM --> WRM
+
+' Connect Induction Motors to its subcategories
+IM --> SIM
+IM --> TIM
+
+' Connect DC Motors to its subcategories
+DCM --> BDCM
+DCM --> BLCM
+
+' Optional: Style the nodes for better visualization
+skinparam rectangle {
+  BackgroundColor #E0F7FA
+  BorderColor #006064
+  FontName Arial
+  FontSize 12
+}
+
+' Optional: Add some spacing to influence layout
+skinparam padding 10
+
+@enduml
