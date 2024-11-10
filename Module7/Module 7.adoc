@@ -146,11 +146,13 @@ x[n] = \frac{1}{N} \sum_{k=0}^{N-1} X[k] \cdot e^{j \frac{2\pi}{N} k n}
 ==== *Short-Time Fourier Transform (STFT)* 
 Analyzes the frequency content of a signal over short windows of time, providing a time-frequency representation. It is useful when the signal's frequency components change over time. The STFT is computed by breaking the signal into short segments and applying the Fourier Transform to each segment. It is commonly used in speech processing, music analysis, and vibration analysis, as well as visualization tools such as spectrograms.
 
-==== *Wavelet Transform*: Unlike STFT, wavelets provide a multi-resolution analysis of a signal, allowing for good frequency resolution for low frequencies and good time resolution for high frequencies. This makes it particularly useful for non-stationary signals.
-    * **Basis Functions:** Wavelets use small waves, called wavelets, as their basis functions. These wavelets are localized in time (they have finite duration) and can be stretched or compressed to analyze different frequency components.
-    * **Time-Frequency Localization:** Wavelets provide a time-frequency representation of the signal, making them ideal for analyzing non-stationary signals where frequency components change over time.
-    * **Multi-Resolution Analysis:** Wavelets can analyze signals at various scales. High-frequency (short-scale) components are analyzed with good time resolution, while low-frequency (long-scale) components are analyzed with good frequency resolution.
-    * **Adaptability:** Because of their ability to focus on specific time intervals and frequency bands, wavelets are useful in applications like image compression, denoising, and feature extraction in signals.
+==== *Wavelet Transform*
+Unlike STFT, wavelets provide a multi-resolution analysis of a signal, allowing for good frequency resolution for low frequencies and good time resolution for high frequencies. This makes it particularly useful for non-stationary signals.
+
+    * *Basis Functions:* Wavelets use small waves, called wavelets, as their basis functions. These wavelets are localized in time (they have finite duration) and can be stretched or compressed to analyze different frequency components.
+    * *Time-Frequency Localization:* Wavelets provide a time-frequency representation of the signal, making them ideal for analyzing non-stationary signals where frequency components change over time.
+    * *Multi-Resolution Analysis:* Wavelets can analyze signals at various scales. High-frequency (short-scale) components are analyzed with good time resolution, while low-frequency (long-scale) components are analyzed with good frequency resolution.
+    * *Adaptability:* Because of their ability to focus on specific time intervals and frequency bands, wavelets are useful in applications like image compression, denoising, and feature extraction in signals.
 
 === 4. Filtering
 
@@ -517,4 +519,324 @@ Noise reduction is crucial for reliable signal interpretation in cyber-physical 
 - In cyber-physical systems, modulation is used for *wireless communication*, where sensor data is transmitted over a distance. Proper modulation helps in efficient and robust data transfer, especially in environments with significant interference.
 
 
-== State Estimation 
+== State Space
+
+In a CPS, the "state" represents all the information required to describe the system's current condition. This could include physical quantities like position, velocity, temperature, and electrical currents, as well as digital aspects like mode states or error conditions.
+
+- *Coordinate System Selection*: Selecting an appropriate coordinate system is crucial for accurately representing the system state. The choice of coordinate system can simplify the representation of system dynamics and facilitate efficient state estimation, especially for complex systems with multiple degrees of freedom.
+- *Degrees of Freedom (DoF)*: Degrees of freedom represent the number of independent variables that define the state of a system. Understanding and correctly modeling the DoF is essential to accurately describe the system state and effectively estimate it in real-time applications.
+- *State-Space vs. Configuration Space*: The system state can be represented in different forms, such as *state-space* or *configuration space*. State-space representation includes all the dynamic variables (e.g., positions and velocities), whereas configuration space focuses on the possible positions or configurations of the system. Choosing the appropriate representation depends on the application and the nature of the system being analyzed.
+
+=== Modeling State Space
+
+*State space representation* is a mathematical framework used to model and analyze dynamic systems. It expresses a system's dynamics using a set of first-order differential (or difference) equations in terms of state variables, inputs, and outputs. This representation is particularly powerful for complex systems, especially those with multiple inputs and outputs (MIMO systems), time-varying parameters, or nonlinearities.
+
+=== Key Components:
+
+1. *State Variables (stem:[\mathbf{x}(t)] or stem:[\mathbf{x}[k]])*:
+   - Represent the smallest set of variables that describe the system's current state.
+   - Capture all the necessary information to predict future behavior, given the inputs.
+
+2. *Input Variables (stem:[\mathbf{u}(t)] or stem:[\mathbf{u}[k]])*:
+   - External signals or controls applied to the system.
+
+3. *Output Variables (stem:[\mathbf{y}(t)] or stem:[\mathbf{y}[k]])*:
+   - Measurable signals or quantities of interest derived from the system.
+
+4. *System Matrices*:
+   - *stem:[\mathbf{A}]*: State matrix (defines the system dynamics).
+   - *stem:[\mathbf{B}]*: Input matrix (how inputs affect states).
+   - *stem:[\mathbf{C}]*: Output matrix (how states affect outputs).
+   - *stem:[\mathbf{D}]*: Feedthrough (or direct transmission) matrix (direct input-output relationship).
+
+=== General Form:
+
+==== Continuous-Time Systems:
+
+*State Equation*:
+
+[stem]
+++++
+\dot{\mathbf{x}}(t) = \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t)
+++++
+
+*Output Equation*:
+
+[stem]
+++++
+\mathbf{y}(t) = \mathbf{C}\mathbf{x}(t) + \mathbf{D}\mathbf{u}(t)
+++++
+
+==== Discrete-Time Systems:
+
+*State Equation*:
+
+[stem]
+++++
+\mathbf{x}[k+1] = \mathbf{A}\mathbf{x}[k] + \mathbf{B}\mathbf{u}[k]
+++++
+
+*Output Equation*:
+
+[stem]
+++++
+\mathbf{y}[k] = \mathbf{C}\mathbf{x}[k] + \mathbf{D}\mathbf{u}[k]
+++++
+
+=== Advantages of State Space Representation:
+
+- *Handles Complex Systems*: Suitable for MIMO systems and higher-order systems without the complexity of transfer functions.
+- *Time-Varying and Nonlinear Systems*: Can model systems where parameters change over time or with the state.
+- *Modern Control Design*: Facilitates advanced control strategies like state feedback, observers, and optimal control.
+
+=== Example: Mass-Spring-Damper System
+
+Consider a mechanical system described by the second-order differential equation:
+
+[stem]
+++++
+m\ddot{x}(t) + c\dot{x}(t) + kx(t) = u(t)
+++++
+
+Where:
+
+- stem:[x(t)]: Position of the mass.
+- stem:[u(t)]: External force applied.
+- stem:[m]: Mass.
+- stem:[c]: Damping coefficient.
+- stem:[k]: Spring constant.
+
+*Step 1: Define State Variables*
+
+Let:
+
+- stem:[x_1(t) = x(t)] (Position)
+- stem:[x_2(t) = \dot{x}(t)] (Velocity)
+
+*Step 2: Derive State Equations*
+
+Express the system as first-order differential equations:
+
+1. stem:[\dot{x}_1(t) = x_2(t)]
+2. stem:[\dot{x}_2(t) = -\dfrac{k}{m} x_1(t) - \dfrac{c}{m} x_2(t) + \dfrac{1}{m} u(t)]
+
+*Step 3: Write in Matrix Form*
+
+[stem]
+++++
+\begin{bmatrix}
+\dot{x}_1(t) \\
+\dot{x}_2(t)
+\end{bmatrix} =
+\begin{bmatrix}
+0 & 1 \\
+-\dfrac{k}{m} & -\dfrac{c}{m}
+\end{bmatrix}
+\begin{bmatrix}
+x_1(t) \\
+x_2(t)
+\end{bmatrix} +
+\begin{bmatrix}
+0 \\
+\dfrac{1}{m}
+\end{bmatrix}
+u(t)
+++++
+
+*Output Equation* (Assuming output is position):
+
+[stem]
+++++
+y(t) = [1 \quad 0]
+\begin{bmatrix}
+x_1(t) \\
+x_2(t)
+\end{bmatrix}
+++++
+
+=== Interpretation:
+
+- *State Vector (stem:[\mathbf{x}(t)])*: Encapsulates the system's current position and velocity.
+- *State Matrix (stem:[\mathbf{A}])*: Describes how the current state affects the rate of change of the state.
+- *Input Matrix (stem:[\mathbf{B}])*: Shows how the external force influences the state.
+- *Output Matrix (stem:[\mathbf{C}])*: Relates the state to the measurable output.
+- *Feedthrough Matrix (stem:[\mathbf{D}])*: Zero in this case, indicating no direct input-to-output path.
+
+=== Why Use State Space Representation?
+
+- *Unified Framework*: Offers a consistent method to model various types of systems.
+- *Computational Efficiency*: Suitable for numerical simulations and computer-based analysis.
+- *Control Design*: Essential for designing controllers that modify the system's behavior based on its state (e.g., feedback control).
+
+
+=== Observability
+The ability to estimate the complete internal state of the system based on the available sensor measurements is known as *observability*. State estimation aims to make sure the state of the system is accurately tracked, even when some internal variables are not directly measurable.
+
+
+== Observability in State Space Representation
+
+*Observability* is a fundamental concept in control theory and state-space analysis. It determines whether the internal states of a dynamic system can be inferred by observing its external outputs over time. In both continuous-time and discrete-time systems, observability plays a crucial role in system analysis, controller design, and state estimation.
+
+- *Observable System*: A system is said to be observable if the current state can be determined in finite time using only the outputs and inputs.
+- *Unobservable System*: If some states cannot be reconstructed from the outputs and inputs, the system is unobservable.
+
+Consider a linear time-invariant (LTI) system represented in state-space form for both continuous-time and discrete-time systems, where the system is given by the state vector (stem:[\mathbf{x}(t)]), state matrix (stem:[\mathbf{A}]), input matrix (stem:[\mathbf{B}]), output matrix (stem:[\mathbf{C}]), feedthrough matrix (stem:[\mathbf{D}])*.
+
+The steps for determining observability are as follows:
+
+1. *Construct Observability Matrix stem:[\mathcal{O}]*:
+   - Calculate stem:[\mathbf{C}], stem:[\mathbf{C}\mathbf{A}], stem:[\mathbf{C}\mathbf{A}^2], ..., stem:[\mathbf{C}\mathbf{A}^{n-1}].
+2. *Calculate Rank of stem:[\mathcal{O}]*:
+   - Use matrix rank determination methods (e.g., Gaussian elimination, singular value decomposition).
+3. *Assess Observability*:
+   - If rank stem:[\mathcal{O} = n], the system is observable.
+   - If rank stem:[\mathcal{O} < n], the system is unobservable.
+
+=== Observability Matrix
+
+The observability of a system can be assessed using the *Observability Matrix*, stem:[\mathcal{O}], which is constructed as:
+
+[stem]
+++++
+\mathcal{O} = \begin{bmatrix}
+\mathbf{C} \\
+\mathbf{C}\mathbf{A} \\
+\mathbf{C}\mathbf{A}^2 \\
+\vdots \\
+\mathbf{C}\mathbf{A}^{n-1}
+\end{bmatrix}
+++++
+
+- stem:[n] is the number of state variables in the system.
+- The matrix stem:[\mathcal{O}] has dimensions stem:[n \times n] for single-output systems.
+
+=== Observability Criterion
+
+- *A system is observable if and only if* the observability matrix stem:[\mathcal{O}] has full rank (i.e., rank stem:[n]).
+- If stem:[\mathcal{O}] is rank-deficient (rank less than stem:[n]), the system is unobservable.
+
+=== Interpretation
+
+- *Full Rank*: Every state contributes uniquely to the output, allowing reconstruction of the entire state vector.
+- *Rank Deficient*: Some states do not influence the output sufficiently, making them unobservable.
+
+=== Examples
+
+==== Continuous-Time System Example
+
+*System Matrices*:
+
+[stem]
+++++
+\mathbf{A} = \begin{bmatrix}
+0 & 1 \\
+-2 & -3
+\end{bmatrix}, \quad
+\mathbf{C} = \begin{bmatrix}
+1 & 0
+\end{bmatrix}
+++++
+
+*Construct Observability Matrix*:
+
+[stem]
+++++
+\mathcal{O} = \begin{bmatrix}
+\mathbf{C} \\
+\mathbf{C}\mathbf{A}
+\end{bmatrix} = \begin{bmatrix}
+1 & 0 \\
+1 \times 0 + 0 \times (-2) & 1 \times 1 + 0 \times (-3)
+\end{bmatrix} = \begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}
+++++
+
+*Analysis*:
+
+- The observability matrix stem:[\mathcal{O}] has full rank (rank 2).
+- **Conclusion**: The system is observable.
+
+==== Discrete-Time System Example
+
+*System Matrices*:
+
+[stem]
+++++
+\mathbf{A} = \begin{bmatrix}
+1 & 0 \\
+0 & \lambda
+\end{bmatrix}, \quad
+\mathbf{C} = \begin{bmatrix}
+0 & 1
+\end{bmatrix}
+++++
+
+Assume stem:[\lambda] is a scalar.
+
+*Construct Observability Matrix*:
+
+[stem]
+++++
+\mathcal{O} = \begin{bmatrix}
+\mathbf{C} \\
+\mathbf{C}\mathbf{A}
+\end{bmatrix} = \begin{bmatrix}
+0 & 1 \\
+0 \times 1 + 1 \times 0 & 0 \times 0 + 1 \times \lambda
+\end{bmatrix} = \begin{bmatrix}
+0 & 1 \\
+0 & \lambda
+\end{bmatrix}
+++++
+
+*Analysis*:
+
+- The rank of stem:[\mathcal{O}] depends on stem:[\lambda].
+  - If stem:[\lambda \neq 0], the rank is 2, and the system is observable.
+  - If stem:[\lambda = 0], the rank is 1, and the system is unobservable.
+
+*Conclusion*:
+
+- The system's observability depends on the value of stem:[\lambda].
+
+=== Importance of Observability
+
+- *State Estimation*: Necessary for designing observers or estimators (e.g., Luenberger observer, Kalman filter) to estimate the internal states.
+- *Control Design*: Essential for implementing state feedback controllers when not all states are measured directly.
+- *System Diagnostics*: Helps in fault detection and system monitoring by ensuring that all states can be observed.
+
+=== Practical Considerations
+
+- **Sensor Placement**: Adequate and strategic placement of sensors can improve observability.
+- **Noise and Disturbances**: Real-world measurements are affected by noise, impacting state estimation accuracy.
+- **Time-Varying Systems**: For time-varying systems, observability may change over time and requires time-dependent analysis.
+
+== Sensors and Uncertainty
+Sensors provide data to estimate the system state, but real-world sensors often have inaccuracies, delays, and noise. State estimation techniques are used to reduce the impact of these uncertainties and provide a more reliable understanding of the system state.
+
+=== Kalman Filter
+One of the most common methods for state estimation in CPS is the *Kalman Filter*. The Kalman Filter is used to estimate the state of a system by combining sensor measurements with a mathematical model of the system dynamics. It does this in two steps:
+
+- *Prediction*: The system model is used to predict the future state based on previous estimates.
+- *Update*: The prediction is adjusted using new sensor measurements, correcting the estimate based on observed data and uncertainty levels.
+
+For non-linear systems, an *Extended Kalman Filter (EKF)* or *Unscented Kalman Filter (UKF)* may be used, which handle the non-linearities in the prediction or update steps.
+
+=== Particle Filter
+In more complex, highly non-linear systems where the Kalman Filter cannot be effectively applied, *Particle Filters* can be used for state estimation. Particle filters use a set of random samples (particles) to approximate the probability distribution of the system state.
+
+=== State Estimation in Control
+State estimation is crucial for feedback control. Many control systems require information about variables that cannot be directly measured, such as velocity or acceleration. For example, in an autonomous vehicle, a state estimator can predict the vehicle’s speed and orientation based on GPS, inertial sensors, and control inputs.
+
+=== State-Space Representation
+State-space representation is a mathematical model that describes the internal state of a system using a set of first-order differential or difference equations. In a state-space model, the system is represented by state variables, input variables, and output variables, which are organized into vector form. This approach is particularly useful for modeling multi-input, multi-output (MIMO) systems, and provides a unified framework for analyzing both linear and non-linear dynamics. The state-space representation is essential for designing modern control systems and implementing state estimation techniques like the Kalman Filter, as it allows for a compact and efficient representation of the system's dynamic behavior.
+
+=== Applications
+- *Robotics*: Estimating the position, velocity, and orientation of a robot in environments where direct measurement might not be possible.
+- *Automotive Systems*: State estimation for vehicle stability, adaptive cruise control, and other driver assistance systems.
+- *Power Systems*: Monitoring the internal state of power grids to ensure stability, detect faults, and adjust loads.
+- *Smart Manufacturing*: Estimating the health and operational state of machinery based on sensor data, which helps in predictive maintenance and process optimization.
+
+State estimation is essential for achieving robustness, reliability, and real-time responsiveness in cyber-physical systems. By combining sensor data with system models, state estimation enables accurate monitoring, enhances control performance, and helps systems deal with sensor inaccuracies and unexpected disturbances.

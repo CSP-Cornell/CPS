@@ -96,7 +96,7 @@ Simulating sensor interfaces in the design of cyber-physical systems is crucial 
 - *Quantization Error*:
     * *Resolution Limitations*: Simulate the effects of finite sensor resolution by quantizing the sensor outputs.
 - *Other Noise Types*:
-    * A more extensive list of noise models is given in the previous section.
+    * A more extensive list of noise models is given in Mitigating Sensor Noise section.
 
 ==== Generate Noisy Sensor Data
 
